@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router";
-import { AuthProvider } from "./auth/AuthContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 //Prepare the host enviroment
 //construct the layout
