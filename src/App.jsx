@@ -1,11 +1,6 @@
-import { Route, Routes } from "react-router";
-import CatalogPage from "./books/CatalogPage.jsx";
-import Layout from "./layout/Layout.jsx";
-import Error404 from "./Error404";
-import BookDetails from "./books/BookDetails.jsx";
-import Register from "./auth/Register.jsx";
-import Login from "./auth/Login.jsx";
-import Account from "./auth/Account.jsx";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import BookList from "./components/BookList";
 
 export default function App() {
   return (
