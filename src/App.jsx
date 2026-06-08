@@ -5,17 +5,17 @@ import BookList from "./components/BookList";
 export default function App() {
   return (
     <>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<CatalogPage />} />
-          <Route path="/books" element={<CatalogPage />} />
-          <Route path="/books/:id" element={<BookDetails />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Error404 />} />
-        </Route>
-      </Routes>
+      <NavBar />
+      <main>
+        <Routes>
+          <Route path="/" element={<BookList />} />
+          <Route path="/books" element={<BookList />} />
+          <Route path="/books/:id" element={<p>Book details coming soon.</p>} />
+          <Route path="/account" element={<p>Account page coming soon.</p>} />
+          <Route path="/register" element={<p>Register page coming soon.</p>} />
+          <Route path="/login" element={<p>Login page coming soon.</p>} />
+        </Routes>
+      </main>
     </>
   );
 }
