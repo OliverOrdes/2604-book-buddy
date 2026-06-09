@@ -13,7 +13,7 @@ export async function getBooks() {
 }
 
 /** Fetches the details of a single book by its ID. */
-export async function getBook(id) {
+export async function getBooks(id) {
   try {
     const response = await fetch(API + "/books/" + id);
     const result = await response.json();
@@ -80,7 +80,7 @@ export async function getMe(token) {
  * Fetches the list of books the logged-in user reserved.
  * A valid token will be needed.
  */
-export async function getReservations(token) {
+export async function reserveBook(token) {
   if (!token) {
     throw Error("You must be signed in to view your reservations.");
   }
