@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import * as api from "../API";
 
 const API = import.meta.env.VITE_API;
 
@@ -6,7 +7,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
-
+  //I need new users to be able to register with this function
   const register = async (credentials) => {
     const response = await fetch(API + "/users/register", {
       method: "POST",

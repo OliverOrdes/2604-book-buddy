@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getBooks } from "../api";
+import { getBooks } from "../API";
 
 export default function BookList() {
   const [books, setBooks] = useState([]);
