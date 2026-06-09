@@ -1,52 +1,53 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import * as api from "../api";
+import { createContext, useContext, useState } from "react";
+
+const API = import.meta.env.VITE_API;
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [user, setUser] = useState(null);
 
-  // Whenever the token changes, load (or clear) the current user.
-  useEffect(() => {
-    if (!token) {
-      setUser(null);
-      return;
+  const register = async (credentials) => {
+    const response = await fetch(API + "/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      throw Error(result.message || "Registration failed. Please try again.");
     }
-    api
-      .getMe(token)
-      .then(setUser)
-      .catch(() => {
-        // Token is missing/expired — clean it up.
-        localStorage.removeItem("token");
-        setToken(null);
-      });
-  }, [token]);
-
-  async function register(credentials) {
-    const result = await api.register(credentials);
     localStorage.setItem("token", result.token);
     setToken(result.token);
-  }
+  };
 
-  async function login(credentials) {
-    const result = await api.login(credentials);
+  const login = async (credentials) => {
+    const response = await fetch(API + "/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      throw Error(result.message || "Login failed. Please try again.");
+    }
     localStorage.setItem("token", result.token);
     setToken(result.token);
-  }
+  };
 
-  function logout() {
+  const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
-  }
+  };
 
-  return (
-    <AuthContext.Provider value={{ token, user, register, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = { token, register, login, logout };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) throw Error("useAuth must be used within AuthProvider");
+  return context;
 }
